@@ -30,6 +30,9 @@
 \setboolean{showmaxslides}{false}
 \newboolean{nofooterlogo}
 \setboolean{nofooterlogo}{false}
+\newboolean{footerpagenumonly}
+\setboolean{footerpagenumonly}{false}
+
 
 \newboolean{nofooter}
 \setboolean{nofooter}{false}
@@ -37,6 +40,7 @@
 \DeclareOptionBeamer{showmaxslides}{\setboolean{showmaxslides}{true}}
 \DeclareOptionBeamer{nofooterlogo}{\setboolean{nofooterlogo}{true}}
 \DeclareOptionBeamer{nofooter}{\setboolean{nofooter}{true}}
+\DeclareOptionBeamer{footerpagenumonly}{\setboolean{footerpagenumonly}{true}}
 
 \ProcessOptionsBeamer
 
@@ -79,7 +83,7 @@
 \newlength{\mytextlength}
 \setlength{\mytextlength}{\paperwidth - \myleftmargin - \myrightmargin}
 \newlength{\myfooterheight}
-\setlength{\myfooterheight}{.08\paperheight}
+\setlength{\myfooterheight}{.05\paperheight}
 
 \setbeamersize{text margin left=\myleftmargin, text margin right=\myrightmargin}
 % This cannot be an environment because I need to access the height parameter
@@ -156,6 +160,18 @@
   }
 }
 
+\defbeamertemplate{footline}{pureminimalisticfooterpagenumonly}{%
+  \basicfooter{%
+    \myfooterheight
+  }{%
+      \vbox to\myfooterheight{%
+      \vfil%
+      \hfill \showpagenum%
+      \par\vfil\vfil
+    }
+  }
+}
+
 \defbeamertemplate{footline}{pureminimalisticfooterdisable}{}
 
 \ifthenelse{\boolean{nofooter}}{
@@ -164,6 +180,10 @@
 
 \ifthenelse{\boolean{nofooterlogo}}{
   \setbeamertemplate{footline}[pureminimalisticfooternologo]
+}{}
+
+\ifthenelse{\boolean{footerpagenumonly}}{
+  \setbeamertemplate{footline}[pureminimalisticfooterpagenumonly]
 }{}
 
 \mode<all>
